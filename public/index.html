@@ -1,0 +1,58 @@
+<!DOCTYh2E html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewh2ort" content="width=device-width, initial-scale=1.0">
+    <title>Fifa 23 Api</title>
+</head>
+<body>
+    <center>
+    <h1>API di FIFA23</h1>
+    </center>
+    <h2>Elenco dei giocatori</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/giocatori">http://127.0.0.1:3000/giocatori</a></p>
+    <h2>Elenco giocatori di una data squadra (passata come parametro)</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/giocatori-squadra?squadra=Juventus">http://127.0.0.1:3000/giocatori-squadra?squadra=Juventus</a></p>
+    <h2>Elenco delle squadre</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/squadre">http://127.0.0.1:3000/squadre</a></p>
+    <h2>Elenco delle nazioni</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/nazioni">http://127.0.0.1:3000/nazioni</a></p>
+    <h2>Elenco delle posizioni</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/posizioni">http://127.0.0.1:3000/posizioni</a></p>
+    <h2>Scheda giocatore</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/giocatore/1">http://127.0.0.1:3000/giocatore/1</a></p>
+    <h2>I 10 migliori portieri</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/migliori-portieri">http://127.0.0.1:3000/migliori-portieri</a></p>
+    <h2>Età media dei migliori 15 giocatori di una data squadra</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/eta-media-squadra?squadra=Juventus">http://127.0.0.1:3000/eta-media-squadra?squadra=Juventus</a></p>
+    <h2>Valore medio dei migliori 15 giocatori di una data squadra</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/valore-medio-squadra?squadra=Juventus">http://127.0.0.1:3000/valore-medio-squadra?squadra=Juventus</a></p>
+    <h2>Elenco dei giocatori di un certo ruolo in ordine di valore crescente</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/giocatori-per-ruolo">http://127.0.0.1:3000/giocatori-per-ruolo</a></p>
+    <h2>I 10 giocatori più forti di una data nazione</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/top-10-giocatori-nazione?nazione=Argentina">http://127.0.0.1:3000/top-10-giocatori-nazione?nazione=Argentina</a></p>
+    <h2>La percentuale di attaccanti che usano di preferenza il piede sinistro</h2>
+    <p>Esempio chiamata: <a href="http://127.0.0.1:3000/percentuale-attaccanti-piede-sinistro">http://127.0.0.1:3000/percentuale-attaccanti-piede-sinistro</a></p>
+    <h2>Aumentare l'età di tutti i giocatori di un anno</h2>
+    <p>Esempio: PUT http://localhost:3000/aumenta-eta HTTP/1.1 <br>
+        content-type: application/json</p>
+    <h2>Eliminazione di tutti i giocatori di valore inferiore a 78</h2>
+    <p>Esempio: DELETE http://localhost:3000/giocatori-valore-inferiore-a-78 HTTP/1.1 <br>
+        content-type: application/json</p>
+    </p>
+    <h2>Inserimento di un nuovo giocatore</h2>
+    <p>Esempio: POST http://localhost:3000/inserisci-giocatore HTTP/1.1 <br>
+        content-type: application/json <br>
+        { <br>
+            "nome": "Mario", <br>
+            "cognome": "Rossi", <br>
+            "squadra": "Juventus", <br>
+            "nazione": "Italia", <br>
+            "ruolo": "Centrocampista", <br>
+            "valore": 80, <br>
+            "eta": 25, <br>
+            "piede": "Destro" <br>
+        }
+    </p>
+</body>
+</html>
