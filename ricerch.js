@@ -166,7 +166,7 @@ app.post('/inserisci-giocatore', (req, res) => {
     nuovoGiocatore.id = nuovoID;
 
     // Aggiungi il nuovo giocatore al JSON esistente
-    jsonData.push(nuovoGiocatore);
+    data.push(nuovoGiocatore);
 
     // Sovrascrivi il file JSON con il nuovo giocatore incluso
     fs.writeFileSync('fifa23_.json', JSON.stringify(data, null, 2), 'utf8');
