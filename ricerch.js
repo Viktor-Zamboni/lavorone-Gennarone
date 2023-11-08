@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require('fs');
+const parser = require('body-parser');
 const app = express();
 const port = 3000;
 
@@ -7,15 +8,18 @@ const data = JSON.parse(fs.readFileSync('fifa23_.json', 'utf8'));
 
 app.use(express.static('./public'));
 
+app.use(parser.json());
+app.use(parser.urlencoded({ extended: true }));
+
+
 //pagina iniziale
 app.get('/', (req, res) => {
   res.sendFile('./public/index.html', { root: __dirname });
-  res.end()
 });
 
 //pagina giocatori
 app.get('/giocatori', (req, res) => {
-  res.end(res.json(data));
+  res.json(data);
 });
 
 //pagina giocatori per squadra
@@ -27,25 +31,25 @@ app.get('/giocatori-squadra', (req, res) => {
   }
   console.log(data.squadra)
   const giocatoriSquadra = data.filter((giocatore) => giocatore.Club === squadra);
-  res.end(res.json(giocatoriSquadra));
+  res.json(giocatoriSquadra);
 });
 
 //pagine squadre
 app.get('/squadre', (req, res) => {
   const squadre = [...new Set(data.map((giocatore) => giocatore.Club))];
-  res.end(res.json(squadre));
+  res.json(squadre);
 });
 
 //pagine nazioni
 app.get('/nazioni', (req, res) => {
   const nazioni = [...new Set(data.map((giocatore) => giocatore.Nazionalita))];
-  res.end(res.json(nazioni));
+  res.json(nazioni);
 });
 
 //pagine ruoli
 app.get('/posizioni', (req, res) => {
   const posizioni = [...new Set(data.map((giocatore) => giocatore.Posizione))];
-  res.end(res.json(posizioni));
+  res.json(posizioni);
 });
 
 //pagine giocatore per id
@@ -54,7 +58,7 @@ app.get('/giocatore/:id', (req, res) => {
   const giocatore = data.find((giocatore) => giocatore.id === id);
 
   if (giocatore) {
-    res.end(res.json(giocatore));
+    res.json(giocatore);
   } else {
     res.status(404).json({ error: 'Giocatore non trovato' });
   }
@@ -64,7 +68,7 @@ app.get('/giocatore/:id', (req, res) => {
 app.get('/migliori-portieri', (req, res) => {
   const portieri = data.filter((giocatore) => giocatore.Posizione === 'GK');
   const miglioriPortieri = portieri.sort((a, b) => b.Valore - a.Valore).slice(0, 10);
-  res.end(res.json(miglioriPortieri));
+  res.json(miglioriPortieri);
 });
 
 //pagina eta media per squadra
@@ -78,7 +82,7 @@ app.get('/eta-media-squadra', (req, res) => {
   const giocatoriSquadra = data.filter((giocatore) => giocatore.Club === squadra);
   const miglioriGiocatori = giocatoriSquadra.sort((a, b) => b.Valore - a.Valore).slice(0, 15);
   const etaMedia = miglioriGiocatori.reduce((sum, giocatore) => sum + giocatore.Eta, 0) / miglioriGiocatori.length;
-  res.end(res.json({ etaMedia }));
+  res.json({ etaMedia });
 });
 
 //pagina valore medio per squadra
@@ -92,7 +96,7 @@ app.get('/valore-medio-squadra', (req, res) => {
   const giocatoriSquadra = data.filter((giocatore) => giocatore.Club === squadra);
   const miglioriGiocatori = giocatoriSquadra.sort((a, b) => b.Valore - a.Valore).slice(0, 15);
   const valoreMedio = miglioriGiocatori.reduce((sum, giocatore) => sum + giocatore.Valore, 0) / miglioriGiocatori.length;
-  res.end(res.json({ valoreMedio }));
+  res.json({ valoreMedio });
 });
 
 //pagina giocatori per ruolo
@@ -105,7 +109,7 @@ app.get('/giocatori-per-ruolo', (req, res) => {
 
   const giocatoriPerRuolo = data.filter((giocatore) => giocatore.Ruolo === ruolo);
   const giocatoriOrdinatiPerValoreCrescente = giocatoriPerRuolo.sort((a, b) => a.Valore - b.Valore);
-  res.end(res.json(giocatoriOrdinatiPerValoreCrescente));
+  res.json(giocatoriOrdinatiPerValoreCrescente);
 });
 
 //pagina migliori giocatori per nazione
@@ -118,7 +122,7 @@ app.get('/top-10-giocatori-nazione', (req, res) => {
 
   const giocatoriNazione = data.filter((giocatore) => giocatore.Nazionalita === nazione);
   const miglioriGiocatoriNazione = giocatoriNazione.sort((a, b) => b.Valore - a.Valore).slice(0, 10);
-  res.end(res.json(miglioriGiocatoriNazione));
+  res.json(miglioriGiocatoriNazione);
 });
 
 //pagina percentuale attaccanti piede sinistro
@@ -126,7 +130,7 @@ app.get('/percentuale-attaccanti-piede-sinistro', (req, res) => {
   const attaccanti = data.filter((giocatore) => giocatore.Ruolo === 'A');
   const attaccantiPiedeSinistro = attaccanti.filter((giocatore) => giocatore.Piede === 'Left');
   const percentuale = (attaccantiPiedeSinistro.length / attaccanti.length) * 100;
-  res.end(res.json({ percentuale: percentuale }));
+  res.json({ percentuale: percentuale });
 });
 
 //query per aumentare eta
@@ -156,6 +160,7 @@ app.delete('/giocatori-valore-inferiore-a-78', (req, res) => {
 //query per inserire un nuovo giocatore
 app.post('/inserisci-giocatore', (req, res) => {
   const nuovoGiocatore = req.body;
+  console.log(nuovoGiocatore);
 
   // Verifica se tutti i campi obbligatori sono presenti nel nuovo giocatore
   if (!nuovoGiocatore.Nome || !nuovoGiocatore.Valore || !nuovoGiocatore.Posizione || !nuovoGiocatore.Nazionalita || !nuovoGiocatore.Eta || !nuovoGiocatore.Club || !nuovoGiocatore.Piede || !nuovoGiocatore.Ruolo) {
